@@ -9,10 +9,8 @@ class Manager_model extends CI_Model
 
     public function getAllTransaksi()
     {
-        $this->db->order_by('transaksi_id');
-        $this->db->from('transaksi');
-        $this->db->join('pemesanan', 'pemesanan.id_pesan = transaksi.transaksi_id');
-        return $this->db->get('')->result_array();
+        $this->db->order_by('transaksi_id DESC');
+        return $this->db->get('transaksi')->result();
     }
 
     public function getTahun(){

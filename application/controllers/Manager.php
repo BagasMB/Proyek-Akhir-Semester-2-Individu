@@ -14,13 +14,16 @@ class Manager extends CI_Controller
     public function index()
     {
         $dat['title'] = 'Manager';
-        // $data['data'] = $this->Manager_model->getAllTransaksi();
-
+        $dat['user'] = $this->db->get_where('user', ['username' => $this->session->userdata('username')])->row_array();
+        
         $tanggalAwal = $this->input->post('tanggalAwal');
         $tanggalAkhir = $this->input->post('tanggalAkhir');
-        $data['dataFilter'] = $this->Manager_model->filterByTanggal($tanggalAwal, $tanggalAkhir);
+
+        $data['dataFilter'] = $this->Manager_model->getAllTransaksi();
+        if ($tanggalAwal) {
+            $data['dataFilter'] = $this->Manager_model->filterByTanggal($tanggalAwal, $tanggalAkhir);
+        }
         
-        $dat['user'] = $this->db->get_where('user', ['username' => $this->session->userdata('username')])->row_array();
         $this->load->view('templates/header', $dat);
         $this->load->view('manager/index',$data);
         $this->load->view('templates/footer');
